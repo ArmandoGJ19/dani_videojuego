@@ -27,7 +27,7 @@ document.getElementById('playerSelect').addEventListener('change', function() {
 });
 let shootImage = new Image();
 shootImage.src = 'shoot.png';
- let imagesLoaded = 0;
+let imagesLoaded = 0;
 enemyImage.onload = imageLoaded;
 playerImage.onload = imageLoaded;
 shootImage.onload = imageLoaded;
@@ -170,7 +170,7 @@ function showGameOverModal() {
 function restartGame() {
     const gameOverModal = document.getElementById('gameOverModal');
     const victoryModal = document.getElementById('victoryModal');
-    touchPositions.length = 0;
+
     victoryModal.style.display = 'none'; // Oculta el modal de victoria
     gameOverModal.style.display = 'none'; // Oculta el modal de Game Over
 
@@ -201,76 +201,20 @@ function updateGame() {
         requestAnimationFrame(updateGame);
     }
 }
-// Funciones para manejar los eventos táctiles
-function handleTouchStart(event) {
-    const touchX = event.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
+document.getElementById('leftButton').addEventListener('touchstart', function(event) {
+    event.preventDefault();  // Evitar el comportamiento predeterminado de desplazamiento de pantalla
+    player.x -= player.speed;
+});
 
-    if (touchX < canvasRect.left + canvas.width / 2) {
-        player.x -= player.speed;
-    } else {
-        player.x += player.speed;
-    }
-}
+document.getElementById('rightButton').addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    player.x += player.speed;
+});
 
-const touchPositions = []; // Almacena las últimas posiciones de los toques
-const maxTouchSamples = 5; // Número máximo de muestras para promediar
-
-function handleTouchMove(event) {
-    event.preventDefault(); // Previene el desplazamiento estándar de la pantalla al tocar
-    const touchX = event.touches[0].clientX;
-    const canvasRect = canvas.getBoundingClientRect();
-
-    // Convertir posición de toque en posición relativa al canvas
-    let touchRelativeX = touchX - canvasRect.left;
-
-    // Ajustar el touchRelativeX para mantenerse dentro de los límites del canvas
-    if (touchRelativeX < 0) {
-        touchRelativeX = 0;
-    } else if (touchRelativeX > canvas.width) {
-        touchRelativeX = canvas.width;
-    }
-
-    // Actualizar la posición del jugador directamente basado en el touchRelativeX
-    player.x = touchRelativeX - (player.width / 2);
-
-    // Restringe el movimiento del jugador dentro de los bordes del canvas
-    if (player.x < 0) {
-        player.x = 0;
-    } else if (player.x > canvas.width - player.width) {
-        player.x = canvas.width - player.width;
-    }
-}
-
-
-
-function handleTouchEnd(event) {
-    createBullet();  // Disparar al levantar el dedo
-}
-
-// Agregar los event listeners para los eventos táctiles
-canvas.addEventListener('touchstart', handleTouchStart, false);
-canvas.addEventListener('touchmove', handleTouchMove, false);
-canvas.addEventListener('touchend', handleTouchEnd, false);
-
-// Asegúrate de desactivar el desplazamiento en la página al tocar
-document.body.addEventListener('touchstart', function(e) {
-    if (e.target == canvas) {
-        e.preventDefault();
-    }
-}, false);
-
-document.body.addEventListener('touchend', function(e) {
-    if (e.target == canvas) {
-        e.preventDefault();
-    }
-}, false);
-
-document.body.addEventListener('touchmove', function(e) {
-    if (e.target == canvas) {
-        e.preventDefault();
-    }
-}, false);
+document.getElementById('shootButton').addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    createBullet();
+});
 
 document.addEventListener('keydown', function(event) {
     if (!gameOver) {
@@ -283,5 +227,3 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
-
-
