@@ -214,16 +214,23 @@ function handleTouchStart(event) {
 }
 
 function handleTouchMove(event) {
+    event.preventDefault();  // Previene el desplazamiento estándar de la pantalla al tocar
     const touchX = event.touches[0].clientX;
     const canvasRect = canvas.getBoundingClientRect();
 
-    // Mover al jugador según la posición del toque
-    if (touchX < canvasRect.left + canvas.width / 2) {
-        player.x -= player.speed;
+    // Calcula la posición X del jugador basada en la posición del toque relativa al canvas
+    let newX = touchX - canvasRect.left - (player.width / 2);
+
+    // Restringe el movimiento del jugador dentro de los bordes del canvas
+    if (newX < 0) {
+        player.x = 0;
+    } else if (newX > canvas.width - player.width) {
+        player.x = canvas.width - player.width;
     } else {
-        player.x += player.speed;
+        player.x = newX;
     }
 }
+
 
 function handleTouchEnd(event) {
     createBullet();  // Disparar al levantar el dedo
