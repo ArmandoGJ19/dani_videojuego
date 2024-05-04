@@ -224,28 +224,24 @@ function handleTouchMove(event) {
     // Convertir posición de toque en posición relativa al canvas
     let touchRelativeX = touchX - canvasRect.left;
 
-    // Actualizar el arreglo de posiciones de toques
-    if (touchPositions.length >= maxTouchSamples) {
-        touchPositions.shift(); // Elimina el elemento más antiguo si alcanza el máximo
+    // Ajustar el touchRelativeX para mantenerse dentro de los límites del canvas
+    if (touchRelativeX < 0) {
+        touchRelativeX = 0;
+    } else if (touchRelativeX > canvas.width) {
+        touchRelativeX = canvas.width;
     }
-    touchPositions.push(touchRelativeX); // Agrega la última posición
 
-    // Calcular el promedio de las posiciones de los toques
-    let sumPositions = touchPositions.reduce((a, b) => a + b, 0);
-    let averageX = sumPositions / touchPositions.length;
-
-    // Ajustar posición del jugador basado en el promedio
-    let newX = averageX - (player.width / 2);
+    // Actualizar la posición del jugador directamente basado en el touchRelativeX
+    player.x = touchRelativeX - (player.width / 2);
 
     // Restringe el movimiento del jugador dentro de los bordes del canvas
-    if (newX < 0) {
+    if (player.x < 0) {
         player.x = 0;
-    } else if (newX > canvas.width - player.width) {
+    } else if (player.x > canvas.width - player.width) {
         player.x = canvas.width - player.width;
-    } else {
-        player.x = newX;
     }
 }
+
 
 
 function handleTouchEnd(event) {
