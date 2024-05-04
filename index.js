@@ -201,6 +201,57 @@ function updateGame() {
         requestAnimationFrame(updateGame);
     }
 }
+// Funciones para manejar los eventos táctiles
+function handleTouchStart(event) {
+    const touchX = event.touches[0].clientX;
+    const canvasRect = canvas.getBoundingClientRect();
+
+    if (touchX < canvasRect.left + canvas.width / 2) {
+        player.x -= player.speed;
+    } else {
+        player.x += player.speed;
+    }
+}
+
+function handleTouchMove(event) {
+    const touchX = event.touches[0].clientX;
+    const canvasRect = canvas.getBoundingClientRect();
+
+    // Mover al jugador según la posición del toque
+    if (touchX < canvasRect.left + canvas.width / 2) {
+        player.x -= player.speed;
+    } else {
+        player.x += player.speed;
+    }
+}
+
+function handleTouchEnd(event) {
+    createBullet();  // Disparar al levantar el dedo
+}
+
+// Agregar los event listeners para los eventos táctiles
+canvas.addEventListener('touchstart', handleTouchStart, false);
+canvas.addEventListener('touchmove', handleTouchMove, false);
+canvas.addEventListener('touchend', handleTouchEnd, false);
+
+// Asegúrate de desactivar el desplazamiento en la página al tocar
+document.body.addEventListener('touchstart', function(e) {
+    if (e.target == canvas) {
+        e.preventDefault();
+    }
+}, false);
+
+document.body.addEventListener('touchend', function(e) {
+    if (e.target == canvas) {
+        e.preventDefault();
+    }
+}, false);
+
+document.body.addEventListener('touchmove', function(e) {
+    if (e.target == canvas) {
+        e.preventDefault();
+    }
+}, false);
 
 document.addEventListener('keydown', function(event) {
     if (!gameOver) {
