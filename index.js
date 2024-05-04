@@ -218,12 +218,19 @@ document.getElementById('shootButton').addEventListener('touchstart', function(e
 
 document.addEventListener('keydown', function(event) {
     if (!gameOver) {
-        if (event.key === 'ArrowLeft' && player.x > 0) {
-            player.x -= player.speed;
-        } else if (event.key === 'ArrowRight' && player.x + player.width < canvas.width) {
-            player.x += player.speed;
+        if (event.key === 'ArrowLeft') {
+            if (player.x > 0) {
+                player.x -= player.speed;
+            }
+            event.preventDefault();  // Evitar el desplazamiento del navegador
+        } else if (event.key === 'ArrowRight') {
+            if (player.x + player.width < canvas.width) {
+                player.x += player.speed;
+            }
+            event.preventDefault();  // Evitar el desplazamiento del navegador
         } else if (event.key === ' ') {
             createBullet();
+            event.preventDefault();  // Evitar cualquier comportamiento predeterminado (como el desplazamiento de página)
         }
     }
 });
