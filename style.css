@@ -1,0 +1,78 @@
+#gameContainer {
+    max-width: 90vw;
+    height: 75vh;
+    margin: 5vh auto;
+    background: linear-gradient(to bottom, #ff7eb9, #ff65a3);
+    border: 5px solid #ffffff;
+    box-shadow: 0px 0px 20px #ff65a3;
+    position: relative;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#gameOverModal, #playerSelectionModal, #victoryModal {
+    display: flex;
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameOverModal div, #playerSelectionModal div, #victoryModal div {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%; /* Ajusta el ancho del modal según el tamaño de pantalla */
+    max-width: 500px; /* Máximo ancho del modal */
+}
+
+
+#gameOverModal > div {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #ff65a3;
+}
+
+button {
+    background-color: #ff65a3;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff7eb9;
+}
+
+/* Estilos para el texto de los contadores */
+ctx.fillStyle = 'white';
+ctx.font = 'bold 18px Arial';
+ctx.shadowColor = 'black';
+ctx.shadowBlur = 7;
+
+@media (max-width: 600px) {
+    #gameContainer {
+        max-width: 100vw;
+        height: 60vh;
+        margin: 20px auto;
+    }
+
+    button {
+        padding: 8px 16px;
+    }
+}
