@@ -170,7 +170,7 @@ function showGameOverModal() {
 function restartGame() {
     const gameOverModal = document.getElementById('gameOverModal');
     const victoryModal = document.getElementById('victoryModal');
-
+    touchPositions.length = 0;
     victoryModal.style.display = 'none'; // Oculta el modal de victoria
     gameOverModal.style.display = 'none'; // Oculta el modal de Game Over
 
@@ -213,13 +213,29 @@ function handleTouchStart(event) {
     }
 }
 
+const touchPositions = []; // Almacena las últimas posiciones de los toques
+const maxTouchSamples = 5; // Número máximo de muestras para promediar
+
 function handleTouchMove(event) {
-    event.preventDefault();  // Previene el desplazamiento estándar de la pantalla al tocar
+    event.preventDefault(); // Previene el desplazamiento estándar de la pantalla al tocar
     const touchX = event.touches[0].clientX;
     const canvasRect = canvas.getBoundingClientRect();
 
-    // Calcula la posición X del jugador basada en la posición del toque relativa al canvas
-    let newX = touchX - canvasRect.left - (player.width / 2);
+    // Convertir posición de toque en posición relativa al canvas
+    let touchRelativeX = touchX - canvasRect.left;
+
+    // Actualizar el arreglo de posiciones de toques
+    if (touchPositions.length >= maxTouchSamples) {
+        touchPositions.shift(); // Elimina el elemento más antiguo si alcanza el máximo
+    }
+    touchPositions.push(touchRelativeX); // Agrega la última posición
+
+    // Calcular el promedio de las posiciones de los toques
+    let sumPositions = touchPositions.reduce((a, b) => a + b, 0);
+    let averageX = sumPositions / touchPositions.length;
+
+    // Ajustar posición del jugador basado en el promedio
+    let newX = averageX - (player.width / 2);
 
     // Restringe el movimiento del jugador dentro de los bordes del canvas
     if (newX < 0) {
