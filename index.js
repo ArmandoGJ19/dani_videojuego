@@ -28,9 +28,7 @@ document.getElementById('playerSelect').addEventListener('change', function() {
 let shootImage = new Image();
 shootImage.src = 'shoot.png';
 let imagesLoaded = 0;
-enemyImage.onload = imageLoaded;
-playerImage.onload = imageLoaded;
-shootImage.onload = imageLoaded;
+
 
 function startGame() {
     changePlayerImage(); // Asegura que se carga la imagen seleccionada
@@ -59,7 +57,9 @@ function imageLoaded() {
         spawnEnemies();
     }
 }
-
+enemyImage.onload = imageLoaded;
+playerImage.onload = imageLoaded;
+shootImage.onload = imageLoaded;
 
 function createEnemies(count) {
     for (let i = 0; i < count; i++) {

@@ -1,6 +1,6 @@
 #gameContainer {
-    max-width: 90vw;
-    height: 75vh;
+    max-width: 70vw;
+    height: 55vh;
     margin: 5vh auto;
     background: linear-gradient(to bottom, #ff7eb9, #ff65a3);
     border: 5px solid #ffffff;
